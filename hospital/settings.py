@@ -16,7 +16,7 @@ SECRET_KEY = 'django-secret-key-placeholder-for-development'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['group-56.onrender.com', 'localhost', '127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
@@ -32,6 +32,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # 添加这一行
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -78,7 +79,10 @@ DATABASES = {
         'USER': 'hospital_yodl_user',  
         'PASSWORD': 'tXrl1ZY7C6gb42cji53n2x8SdC2O8DVj', 
         'HOST': 'dpg-cvcuvdofnakc73ep63m0-a.frankfurt-postgres.render.com',  
-        'PORT': '5432',  
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+        }
     }
 }
 
