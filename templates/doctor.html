@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>User System</title>
+	<link rel="stylesheet" href="/static/css/element.css">
+	<link rel="stylesheet" href="/static/css/index.css">
+	<link rel="stylesheet" href="/static/css/admin.css">
+	<script src="/static/js/vue.js"></script>
+	<script src="/static/js/axios.js"></script>
+	<script src="/static/js/helper.js"></script>
+	<script src="/static/js/element.js"></script>
+</head>
+<body>
+  <div id="app" class="app-warpper">
+    <div class="app-header">
+			<h2>Doctor Platform</h2>
+			<a href="../login" class="menu-item">
+				<span slot="title">Sign out</span>
+			</a>
+		</div>
+    <div class="app-body">
+			<div class="app-menu">
+				<a href="../doctor_home" class="menu-item {% block home %}{% endblock %}">
+					<i class="el-icon-document"></i>
+					<span slot="title">Reception Room</span>
+				</a>
+				<a href="../doctor_order" class="menu-item {% block order %}{% endblock %}">
+					<i class="el-icon-setting"></i>
+					<span slot="title">Patient records</span>
+				</a>
+			</div>
+			<div class="app-container">
+				{% block mainbody %}
+				{% endblock %}
+			</div>
+		</div>
+  </div>
+</body>

@@ -1,0 +1,82 @@
+{%extends "admin.html" %}
+ <!-- 导航标记 -->
+<!--Navigation Markers-->
+{% block department %}active{% endblock %}
+<!-- 内容区 -->
+ <!--Content Area-->
+{% block mainbody %}
+
+{% verbatim %}
+<div id="app2" class="container">
+  <div class="department-table">
+    <el-table
+      :data="list"
+      stripe
+      style="width: 100%"
+      empty-text="No Data">
+      <el-table-column
+        prop="id"
+        label="Department Id"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="name"
+        label="Name"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="registration_fee"
+        label="Consultation Fee">
+      </el-table-column>
+      <el-table-column
+        prop="doctor_num"
+        label="Doctor Number">
+      </el-table-column>
+    </el-table>
+  </div>
+</div>
+{% endverbatim %}
+<script>
+  new Vue({
+    el: '#app2',
+    data() {
+      return {
+        list: []
+      }
+    },
+    mounted() {
+      this.getDepartmentList()
+    },
+    methods: {
+      getDepartmentList() {
+        // 获取部门列表
+       //Get a list of departments
+        axios.post(ToDJ('departmentList'), new URLSearchParams()).then(res => {
+          if (res.data.code === 0) {
+            console.log(res.data.data)
+            this.list = res.data.data
+          } else {
+            this.NotifyFail(res.data.data)
+          }
+        })
+      },
+      // 成功提示
+      //Success Tips
+      NotifySuc(str) {
+        this.$message({
+          message: str,
+          type: 'success'
+        })
+			},
+      // 错误提示
+      //Error message
+			NotifyFail(str) {
+        this.$message({
+          message: str,
+          type: 'warning'
+        })
+			}
+    }
+  })
+</script>
+{% endblock %}

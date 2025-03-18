@@ -1,0 +1,154 @@
+{%extends "admin.html" %}
+ <!-- 导航标记 -->
+  <!--Navigation Markers-->
+{% block doctor %}active{% endblock %}
+<!-- 内容区 -->
+ <!--Content Area-->
+{% block mainbody %}
+
+{% verbatim %}
+<div id="app2" class="container">
+  <div class="filter-container">
+    <div class="filter-item">
+      <el-button @click="onAddDoctor">Add</el-button>
+    </div>
+  </div>
+  <div class="department-table">
+    <el-table
+      :data="list"
+      stripe
+      style="width: 100%"
+      empty-text="No Data">
+      <el-table-column
+        prop="id"
+        label="Doctor Id"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="name"
+        label="Name"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="id_card"
+        label="Work number">
+      </el-table-column>
+      <el-table-column
+        prop="department_name"
+        label="Department">
+      </el-table-column>
+    </el-table>
+  </div>
+
+  <!-- 添加医生弹窗 -->
+   <!--Add doctor pop-up-->
+  <el-dialog title="Add Doctor" :visible.sync="showAddDoctorForm">
+    <el-form ref="addDoctorForm" :model="addDoctorInfo" :rules="doctorRules" label-width="80px" label-position="left">
+      <el-form-item label="Name" prop="name">
+        <el-input v-model="addDoctorInfo.name"/>
+      </el-form-item>
+      <el-form-item label="Work No." prop="id_card">
+        <el-input v-model="addDoctorInfo.id_card"/>
+      </el-form-item>
+      <el-form-item label="Department" prop="department_id">
+        <el-input v-model="addDoctorInfo.department_id"/>
+      </el-form-item>
+      <el-form-item label="password" prop="password">
+        <el-input v-model="addDoctorInfo.password"/>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="showAddDoctorForm = false">Cancel</el-button>
+      <el-button type="primary" @click="onSubmitAddDoctor">Confirm</el-button>
+    </div>
+  </el-dialog>
+</div>
+{% endverbatim %}
+<script>
+  new Vue({
+    el: '#app2',
+    data() {
+      return {
+        list: [],
+        // 添加
+        //Add
+        addDoctorFormType: 1,
+        showAddDoctorForm: false,
+        addDoctorInfo: {
+          id: '',
+          name: '',
+          id_card: '',
+          department_id: '',
+          password: ''
+        },
+        doctorRules: {
+          name: [{ required: true, message: 'Please enter your name', trigger: 'blur' }],
+          id_card: [{ required: true, message: 'Please enter your work number', trigger: 'blur' }],
+          department_id: [{ required: true, message: 'Please select department', trigger: 'change' }],
+          password: [{ required: true, message: 'Please enter your password', trigger: 'blur' }]
+        }
+      }
+    },
+    mounted() {
+      this.getDoctorList()
+    },
+    methods: {
+      getDoctorList() {
+        // 获取列表
+        //Get List
+        axios.post(ToDJ('doctorList'), new URLSearchParams()).then(res => {
+          if (res.data.code === 0) {
+            console.log(res.data.data)
+            this.list = res.data.data
+          } else {
+            this.NotifyFail(res.data.data)
+          }
+        })
+      },
+      // 点击添加
+      //Click Add
+      onAddDoctor() {
+        this.addDoctorFormType = 1
+        this.showAddDoctorForm = true
+      },
+      // 提交添加
+      //Submit Add
+      onSubmitAddDoctor() {
+        this.$refs.addDoctorForm.validate((valid) => {
+          if (valid) {
+            // 新添加
+            //Newly added
+            if (this.addDoctorFormType === 1) {
+              axios.post(ToDJ('doctorAdd'), new URLSearchParams(this.addDoctorInfo)).then(res => {
+                if (res.data.code === 0) {
+                  this.NotifySuc("Added successfully")
+                  this.showAddDoctorForm = false
+                  this.getDoctorList()
+                } else {
+                  this.NotifyFail(res.data.data)
+                }
+              })
+            }
+          }
+        })
+      },
+      // 成功提示
+      //Success Tips
+      NotifySuc(str) {
+        this.$message({
+          message: str,
+          type: 'success'
+        })
+			},
+      // 错误提示
+      //Error message
+			NotifyFail(str) {
+        this.$message({
+          message: str,
+          type: 'warning'
+        })
+			}
+    }
+  })
+</script>
+{% endblock %}

@@ -1,0 +1,127 @@
+{%extends "patient.html" %}
+ <!-- 导航标记 -->
+  <!--Navigation Markers-->
+{% block home %}active{% endblock %}
+<!-- 内容区 -->
+ <!--Content Area-->
+{% block mainbody %}
+
+{% verbatim %}
+<div id="app2" class="container">
+  <div class="order-wrapper">
+    <el-form ref="addOrderForm" :model="addOrderInfo" :rules="orderRules" label-width="80px" label-position="left">
+      <el-form-item label="Name" prop="name">
+        <el-input disabled v-model="addOrderInfo.name"/>
+      </el-form-item>
+      <el-form-item label="CHI number" prop="id_card">
+        <el-input disabled v-model="addOrderInfo.id_card"/>
+      </el-form-item>
+      <el-form-item label="Department" prop="department_id">
+        <el-select v-model="addOrderInfo.department_id" placeholder="Please select department">
+          <el-option
+            v-for="item in departmentList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"/>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Self-report of illness" prop="readme">
+        <el-input v-model="addOrderInfo.readme"/>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="onSubmitOrder">Register now</el-button>
+    </div>
+  </div>
+</div>
+{% endverbatim %}
+<script>
+  new Vue({
+    el: '#app2',
+    data() {
+      return {
+        userInfo: {
+          id: '',
+          id_card: '',
+          name: '',
+          sex: '',
+          age: ''
+        },
+        addOrderInfo: {
+          user_id: '',
+          id_card: '',
+          name: '',
+          readme: '',
+          registration_fee: '',
+          department_id: '',
+          department_name: ''
+        },
+        // 科室列表
+        // Department List
+        departmentList: [],
+        orderRules: {
+          name: [{ required: true, message: 'Please enter your name', trigger: 'blur' }],
+          id_card: [{ required: true, message: 'Please enter your CHI number', trigger: 'blur' }],
+          department_id: [{ required: true, message: 'Please select department', trigger: 'change' }],
+          readme: [{ required: true, message: 'Please enter your password', trigger: 'blur' }]
+        }
+      }
+    },
+    mounted() {
+      let userInfo = window.localStorage.getItem("hospital_userInfo")
+      if (userInfo) {
+        userInfo = JSON.parse(userInfo)
+        this.userInfo = userInfo
+        this.addOrderInfo.id_card = userInfo.id_card
+        this.addOrderInfo.name = userInfo.name
+        this.addOrderInfo.user_id = userInfo.id
+      }
+      this.getDepartmentList()
+    },
+    methods: {
+      getDepartmentList() {
+        // 获取部门列表
+        // Get a list of departments
+        axios.post(ToDJ('departmentList'), new URLSearchParams()).then(res => {
+          if (res.data.code === 0) {
+            this.departmentList = res.data.data
+          } else {
+            this.NotifyFail(res.data.data)
+          }
+        })
+      },
+      onSubmitOrder() {
+        this.$refs.addOrderForm.validate((valid) => {
+          if (valid) {
+            // 新添加
+            // Newly added
+            axios.post(ToDJ('orderAdd'), new URLSearchParams(this.addOrderInfo)).then(res => {
+              if (res.data.code === 0) {
+                this.NotifySuc("Registration successful")
+              } else {
+                this.NotifyFail(res.data.data)
+              }
+            })
+          }
+        })
+      },
+      // 成功提示
+      // Success Tips
+      NotifySuc(str) {
+        this.$message({
+          message: str,
+          type: 'success'
+        })
+			},
+      // 错误提示
+      // Error message
+			NotifyFail(str) {
+        this.$message({
+          message: str,
+          type: 'warning'
+        })
+			}
+    }
+  })
+</script>
+{% endblock %}
