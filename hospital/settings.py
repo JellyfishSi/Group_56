@@ -74,14 +74,13 @@ WSGI_APPLICATION = 'hospital.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',  
-        'NAME': 'hospital',  
-       'USER': 'postgres',  
-        'PASSWORD': '8853533', 
-        'HOST': '127.0.0.1',  
+        'NAME': 'hospital_yodl',  
+        'USER': 'hospital_yodl_user',  
+        'PASSWORD': 'tXrl1ZY7C6gb42cji53n2x8SdC2O8DVj', 
+        'HOST': 'dpg-cvcuvdofnakc73ep63m0-a.frankfurt-postgres.render.com',  
         'PORT': '5432',  
     }
 }
-
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
