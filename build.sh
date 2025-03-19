@@ -2,16 +2,22 @@
 # exit on error
 set -o errexit
 
-# Python虚拟环境命令
-python -m venv venv
+# 确保使用虚拟环境中的 Python
+python3 -m venv venv
 source venv/bin/activate
+
+# 升级 pip
+pip install --upgrade pip
 
 # 安装依赖
 pip install -r requirements.txt
 
-# 数据库迁移命令
+# 确保 gunicorn 已安装
+pip install gunicorn
+
+# 数据库迁移
 python manage.py makemigrations
 python manage.py migrate
 
-# 收集静态文件（如果需要）
+# 收集静态文件
 python manage.py collectstatic --noinput

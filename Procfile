@@ -1,1 +1,1 @@
-web: gunicorn hospital.wsgi
+web: venv/bin/gunicorn hospital.wsgi:application
