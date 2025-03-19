@@ -1,1 +1,1 @@
-web: /opt/render/project/src/venv/bin/python -m gunicorn hospital.wsgi:application
+web: /opt/render/project/src/venv/bin/python3 -m pip install gunicorn && /opt/render/project/src/venv/bin/gunicorn hospital.wsgi:application
