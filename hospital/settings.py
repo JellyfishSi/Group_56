@@ -78,7 +78,7 @@ DATABASES = {
         'NAME': 'hospital_tj98',  
         'USER': 'hospital_tj98_user',  
         'PASSWORD': 'pGOMBUOYSo2Cb554RnhUgozmwb0debrP',
-        'HOST': 'dpg-cvd0hhpu0jms739irta0-a',
+        'HOST': 'dpg-cvd0hhpu0jms739irta0-a.frankfurt-postgres.render.com',
         'PORT': '5432',
         'OPTIONS': {
             'sslmode': 'require',
