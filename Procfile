@@ -1,1 +1,1 @@
-web: venv/bin/gunicorn hospital.wsgi:application
+web: python3 -m gunicorn hospital.wsgi:application
