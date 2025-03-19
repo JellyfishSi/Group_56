@@ -11,7 +11,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-secret-key-placeholder-for-development'
+SECRET_KEY = 'django-insecure-d44=xloa_ngo&moz%cujtvuqpr7ub)hfbqss6$xnubj031q3!9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -75,10 +75,10 @@ WSGI_APPLICATION = 'hospital.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',  
-        'NAME': 'hospital_yodl',  
-        'USER': 'hospital_yodl_user',  
-        'PASSWORD': 'tXrl1ZY7C6gb42cji53n2x8SdC2O8DVj', 
-        'HOST': 'dpg-cvcuvdofnakc73ep63m0-a.frankfurt-postgres.render.com',  
+        'NAME': 'hospital_tj98',  
+        'USER': 'hospital_tj98_user',  
+        'PASSWORD': 'pGOMBUOYSo2Cb554RnhUgozmwb0debrP', 
+        'HOST': 'dpg-cvd0hhpu0jms739irta0-a.frankfurt-postgres.render.com',  
         'PORT': '5432',
         'OPTIONS': {
             'sslmode': 'require',
@@ -115,6 +115,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -123,6 +125,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'hospital.exception.custom_exception_handler'
 }
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
