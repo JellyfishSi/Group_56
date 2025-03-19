@@ -10,8 +10,7 @@ source venv/bin/activate
 pip install --upgrade pip
 
 # 安装依赖（明确包括 gunicorn）
-pip install -r requirements.txt
-pip install gunicorn
+pip install -r requirements.txt -v
 
 # 数据库迁移
 python manage.py makemigrations
@@ -19,6 +18,3 @@ python manage.py migrate
 
 # 收集静态文件
 python manage.py collectstatic --noinput
-
-# 打印 gunicorn 位置（调试用）
-which gunicorn
