@@ -1,1 +1,1 @@
-web: python3 -m gunicorn hospital.wsgi:application
+web: /opt/render/project/src/venv/bin/python -m gunicorn hospital.wsgi:application
